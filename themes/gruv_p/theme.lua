@@ -40,7 +40,6 @@ local palette = {
     cyan_h   = "#427b58",
     orange   = "#d65d0e",
     orange_h = "#af3a03",
-    transparent = "#fbf1c711"
 }
 
 local theme = {
@@ -56,23 +55,23 @@ local theme = {
     fg_urgent     = palette.bg,
     fg_minimize   = palette.fg,
 --
-    useless_gap   = dpi(3),
-    border_width  = dpi(1),
+    useless_gap   = dpi(2),
+    border_width  = dpi(2),
     border_normal = palette.bg,
-    border_focus  = palette.purple_h,
-    border_marked = palette.red_h,
---
-    widget_main_color = palette.fg,
+    border_focus  = palette.purple,
+    border_marked = palette.red,
+-- for statusbar
+    widget_fg     = palette.bg,
     widget_red    = palette.red,
     widget_green  = palette.green,
     widget_yellow = palette.yellow,
     widget_blue   = palette.blue,
     widget_gray   = palette.bg2,
     widget_black  = palette.fg,
-    widget_transparent = palette.transparent
+    widget_transparent = palette.fg.."77"
 }
 
-theme.bg_systray  = theme.bg_normal
+theme.bg_systray  = palette.fg.."77"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -88,23 +87,44 @@ theme.bg_systray  = theme.bg_normal
 --theme.taglist_bg_focus = "#ff0000"
 
 -- wibox height
-theme.wibox_height = dpi(18)
+theme.wibox_height = dpi(20)
+
 
 -- Generate taglist squares:
+--     overline shape
+local function overline_shape(cr, width, height)
+    cr: rectangle(0, 0, width, 2)
+end
+local load_shape = gears.surface.load_from_shape
+local function get_tag_shape(fg, bg)
+    return load_shape(theme.wibox_height + 2, theme.wibox_height, overline_shape, fg, bg)
+end
+--      taglist
 theme.taglist_spacing       = dpi(5)
-theme.taglist_bg_empty      = palette.bg1
+theme.taglist_squares_sel   = get_tag_shape(palette.red, palette.widget_transparent)
+theme.taglist_squares_unsel = get_tag_shape(palette.blue, palette.widget_transparent)
+theme.taglist_bg_empty      = palette.widget_transparent
 theme.taglist_fg_empty      = palette.fg
-theme.taglist_bg_occupied   = palette.bg3
-theme.taglist_fg_occupied   = palette.fg
-theme.taglist_bg_focus      = palette.fg
-theme.taglist_fg_focus      = palette.bg_h
-theme.taglist_bg_urgent     = palette.red_h
-theme.taglist_fg_urgent     = palette.bg_h
+theme.taglist_bg_occupied   = palette.fg4.."77"
+theme.taglist_fg_occupied   = palette.bg
+theme.taglist_bg_focus      = palette.bg.."77"
+theme.taglist_fg_focus      = palette.fg
+theme.taglist_bg_urgent     = palette.fg4.."77"
+theme.taglist_fg_urgent     = palette.bg
+theme.taglist_font          = "DejaVuSansMono NF 16"
 
 -- Task List:
-theme.tasklist_bg_normal    = palette.bg1
+theme.tasklist_bg_normal    = palette.fg4.."77"
+theme.tasklist_fg_normal    = palette.bg
+theme.tasklist_bg_focus     = palette.bg.."77"
+theme.tasklist_fg_focus     = palette.fg
+theme.tasklist_bg_urgent    = palette.red_h.."77"
+theme.tasklist_fg_urgent    = palette.fg
+theme.tasklist_bg_minimize  = palette.green_h.."77"
+theme.tasklist_fg_minimize  = palette.bg
 theme.tasklist_plain_task_name = true
 theme.tasklist_spacing = dpi(5)
+theme.tasklist_width = dpi(200)
 theme.tasklist_shape = gears.shape.rectangle
 
 
