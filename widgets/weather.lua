@@ -1,3 +1,4 @@
+-- @module: Weather Widget
 -------------------------------------------------
 -- Weather Widget based on the OpenWeatherMap
 -- https://openweathermap.org/
